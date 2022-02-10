@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <!-- set styles on the top -->
+    <style>
+        .chart-container {
+            max-width: 1050px;
+            /* border: 2px solid red; */
+            margin: 0 auto;
+            /* auto centers the div */
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+
+        svg {
+            /* border: 2px solid purple; */
+            overflow: visible;
+        }
+
+        h1 {
+            margin-left: 30px;
+            margin-bottom: 0;
+            /* border: 2px solid green; */
+        }
+
+        .x .tick line {
+            stroke: rgba(0, 0, 0, .2);
+        }
+
+        .y .tick line {
+            stroke: rgba(0, 0, 0, .2);
+        }
+
+        .x .domain {
+           display: none;
+        }
+
+        .y .domain {
+            display: none;
+        }
+
+        .y .tick text {
+            font-size: 14px;
+            fill: #333;
+
+        }
+
+        .x .tick text {
+            font-size: 14px;
+            fill: #333;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="chart-container">
+        <h1 class="headline">
+            No 2. Passing Touchdowns
+        </h1>
+
+        <svg width="800px" height="500px">
+
+        </svg>
+    </div>
+</body>
+
+<script src="https://d3js.org/d3.v6.min.js"></script>
+<!-- we're using d3 version 6 (the latest version) for all out work -->
+
+<script>
+    // setting margins and width
+    let margin = { top: 30, right: 30, bottom: 30, left: 30 };
+    let width = 800;
+     height = 500;
+
+    // load data
+    d3.tsv("cumulative_stats.tsv").then(function (data){
+
+        // transforming from strings to doubles
+        data.forEach(function (row) {
+            row.player_id = row.player_id
+            row.year = +row.year
+            row.yards = +row.yards
+            row.tds	= +row.tds
+            row.att	= +row.att
+            row.comp = +row.comp
+            row.playoff_games = +row.playoff_games
+            row.playoff_wins = +row.playoff_wins	
+            row.pb_games = +row.pb_games
+        })
+
+        // defining variables
+        let x = d3.scaleLinear()
+            .domain(d3.extent(data.map(function(d) {return d.year} )))
+            .range([margin.left, width-margin.right])
+
+        let y = d3.scaleLinear()
+            .domain(d3.extent(data.map(function(d) {return d.playoff_wins})))
+            .range([height - margin.bottom, margin.top])
+
+        // defining axes
+        let xAxisSettings = d3.axisBottom(x)
+            .ticks(8)
+            .tickSize(10)
+            .tickFormat(d3.format("d"))
+            .tickPadding(10)
+
+        let yAxisSettings = d3.axisRight(y)
+            // .ticks(7)
+            .tickValues([5, 10, 15, 20, 25, 30, 35])
+            .tickSize(width-margin.right)
+            .tickPadding(10)
+        
+        let svg = d3.select("body")
+            .select("svg")
+
+        let yAxisTicks = svg.append("g")
+            .attr("class", "y axis")
+            .call(yAxisSettings)
+
+        let xAxisTicks = svg.append("g")
+            .attr("class", "x axis")
+            .call(xAxisSettings)
+            .attr("transform", `translate(0, ${height - margin.bottom})`)
+        
+        let line = d3.line() //define a line function
+            .defined(d => !isNaN(d.playoff_wins))
+            .x(function (d) { return x(d.year) }) //accessing date 
+            .y(function (d) { return y(d.playoff_wins) }) //accesssing value 
+        
+        // let line_path = svg.append("path")
+        //    .attr("d", line(data))
+        //    .style("stroke", "black")
+        //    .style("fill", "none")
+
+        let grouped_data = d3.group(data, d => d.player_id)
+        console.log(grouped_data)
+        
+        let line_path = svg.append("g")
+        .selectAll(".line")
+        .data(grouped_data)
+        .join("path")
+        .attr("class", function(d) {
+            return "line " +  d[0]
+        })
+        .attr("d", function(d) {
+            return line(d[1])
+        })
+        .style("fill", "none")
+        .style("stroke", d => {
+            if(d[0] == "San Francisco Municipal Railway") {
+                return "blue"
+            } else {
+                return "#999"
+            }
+        })
+        .style("stroke-width", d => {
+            if(d[0] == "San Francisco Municipal Railway") {
+                return "3px"
+            } else {
+                return "1px"
+            }
+        })
+
+        let baseline = svg.append("line")
+        .attr("x1", margin.left)
+        .attr("x2", width + margin.left)
+        .attr("y1", y(0))
+        .attr("y2", y(0))
+        .style("stroke", "black")
+        .style("stroke-width", "2px")
+
+
+        
+        
+        
+            
+
+
+
+
+
+
+
+
+
+    })
+</script>
