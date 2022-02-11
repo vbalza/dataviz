@@ -21,15 +21,17 @@
         h1 {
             margin-left: 30px;
             margin-bottom: 0;
+            font-family: "Franklin Gothic Medium";
+            font-size: 30px;
             /* border: 2px solid green; */
         }
 
         .x .tick line {
-            stroke: rgba(0, 0, 0, .2);
+            stroke: black;
         }
 
         .y .tick line {
-            stroke: rgba(0, 0, 0, .2);
+            stroke: #f0f0f0;
         }
 
         .x .domain {
@@ -41,13 +43,15 @@
         }
 
         .y .tick text {
-            font-size: 14px;
+            font-size: 11px;
+            font-family: sans-serif;
             fill: #333;
 
         }
 
         .x .tick text {
-            font-size: 14px;
+            font-size: 12px;
+            font-family: sans-serif;
             fill: #333;
         }
     </style>
@@ -56,7 +60,7 @@
 <body>
     <div class="chart-container">
         <h1 class="headline">
-            No 2. Passing Touchdowns
+            No 1. Playoff Wins
         </h1>
 
         <svg width="800px" height="500px">
@@ -71,11 +75,12 @@
 <script>
     // setting margins and width
     let margin = { top: 30, right: 30, bottom: 30, left: 30 };
-    let width = 800;
-     height = 500;
+    let width = 750;
+    let height = 550;
 
     // load data
-    d3.tsv("cumulative_stats.tsv").then(function (data){
+    
+    d3.tsv("final_df.tsv").then(function (data){
 
         // transforming from strings to doubles
         data.forEach(function (row) {
@@ -88,6 +93,10 @@
             row.playoff_games = +row.playoff_games
             row.playoff_wins = +row.playoff_wins	
             row.pb_games = +row.pb_games
+            row.year_start = +row.year_start
+            row.year_end = +row.year_end
+            row.age = +row.age
+
         })
 
         // defining variables
@@ -102,7 +111,7 @@
         // defining axes
         let xAxisSettings = d3.axisBottom(x)
             .ticks(8)
-            .tickSize(10)
+            .tickSize(8)
             .tickFormat(d3.format("d"))
             .tickPadding(10)
 
@@ -129,18 +138,122 @@
             .x(function (d) { return x(d.year) }) //accessing date 
             .y(function (d) { return y(d.playoff_wins) }) //accesssing value 
         
-        // let line_path = svg.append("path")
-        //    .attr("d", line(data))
-        //    .style("stroke", "black")
-        //    .style("fill", "none")
-
+        // defining filtered datasets
         let grouped_data = d3.group(data, d => d.player_id)
-        console.log(grouped_data)
+        let highlighted_players = ["StarBa00", "BradTe00", "TarkFr00", "MontJo01", "ElwaJo00"]
+        let maxdata = d3.rollups(
+            data,
+            x => ({
+                maxWins: d3.max(x, d => d.playoff_wins),
+                maxYear: d3.max(x, d => d.year),
+                lastName: x.map(d => d.last_name)[0]
+            }),
+            d => d.player_id)
         
-        let line_path = svg.append("g")
+        // grey endpoints
+        svg.selectAll("greypts")
+            .data(maxdata)
+            .enter()
+            .append("circle")
+            .filter(function(d) { return d[1]["maxWins"] > 0 && 
+                    highlighted_players.indexOf(d[0]) == -1 && 
+                    d[1]["maxYear"] < 2021})
+            .attr("fill", "#d0d0d0")
+            .attr("stroke", "none")
+            .attr("cx", function(d) {return x(d[1]["maxYear"]) })
+            .attr("cy", function(d) { return y(d[1]["maxWins"]) })
+            .attr("r", d => {
+                if(d[0] == "BradTo00") {
+                    return 4.5
+                }
+                else {
+                    return 1.5
+                }
+            })
+
+        // grey line
+        let line_path_grey = svg.append("g")
+            .selectAll(".line")
+            .data(grouped_data)
+            .join("path")
+            .filter(function(d) { return highlighted_players.indexOf(d[0]) == -1 
+                                  && d[1].slice(-1)[0]["year"] < 2021}
+            )
+            .attr("class", function(d) { return "line " +  d[0] })
+            .attr("d", function(d) { return line(d[1]) })
+            .style("fill", "none")
+            .style("stroke", "#d0d0d0")
+            .style("stroke-width", d => {
+                if(d[0] == "BradTo00") { 
+                    return "3px"
+                } 
+                else { 
+                    return "1px"
+                }
+            })
+
+        // black endpoints
+        let blackcirles = svg.selectAll("blackpts")
+            .data(maxdata)
+            .enter()
+            .filter(function(d) { return d[1]["maxWins"] > 0 && 
+                    highlighted_players.indexOf(d[0]) >= 0 && 
+                    d[1]["maxYear"] < 2021})
+        
+        blackcirles.append("circle")
+            .attr("fill", "#555555")
+            .attr("stroke", "none")
+            .attr("cx", function(d) {return x(d[1]["maxYear"]) })
+            .attr("cy", function(d) { return y(d[1]["maxWins"]) })
+            .attr("r", d => {
+                if(d[0] == "BradTo00") { 
+                    return 4.5 
+                }
+                else { 
+                    return 1.5 
+                }
+            })
+        
+
+        // blue endpoints
+        let bluecircles = 
+            svg.selectAll("bluepts")
+            .data(maxdata)
+            .enter()
+            .filter(function(d) { return d[1]["maxWins"] > 0 && 
+                    highlighted_players.indexOf(d[0]) == -1 && 
+                    d[1]["maxYear"] >= 2021})
+        
+        bluecircles.append("circle")
+            .attr("fill", "#54b3e5")
+            .attr("stroke", "none")
+            .attr("cx", function(d) {return x(d[1]["maxYear"]) })
+            .attr("cy", function(d) { return y(d[1]["maxWins"]) })
+            .attr("r", d => {
+                if(d[0] == "BradTo00") {
+                    return 4.5
+                }
+                else {
+                    return 1.5
+                }
+            })
+        
+        bluecircles
+            .filter(function(d) {return d[0] == "BradTo00"})
+            .append("text")
+            .attr("x", function(d) {return x(d[1]["maxYear"]) - 35})
+            .attr("y", function(d) {return y(d[1]["maxWins"]) - 15})
+            .text(function(d) {return d[1]["lastName"]})
+            .style("font-size", 20)
+            .style("font-family", "Arial")
+
+
+        // black line
+        let line_path_black = svg.append("g")
         .selectAll(".line")
         .data(grouped_data)
         .join("path")
+        .filter(function(d) { return highlighted_players.indexOf(d[0]) >= 0 })
         .attr("class", function(d) {
             return "line " +  d[0]
         })
@@ -148,42 +261,60 @@
             return line(d[1])
         })
         .style("fill", "none")
-        .style("stroke", d => {
-            if(d[0] == "San Francisco Municipal Railway") {
-                return "blue"
-            } else {
-                return "#999"
-            }
-        })
+        .style("stroke", "#555555")
         .style("stroke-width", d => {
-            if(d[0] == "San Francisco Municipal Railway") {
+            if(d[0] == "BradTo00") {
                 return "3px"
             } else {
                 return "1px"
             }
         })
+        
+        blackcirles.append("text")
+            .attr("x", function(d) {return x(d[1]["maxYear"]) + 4})
+            .attr("y", function(d) {return y(d[1]["maxWins"]) + 3})
+            .text(function(d) {return d[1]["lastName"]})
+            .style("font-size", 11)
+            .style("font-family", "Arial")
+            // .style("font-weight", "bold")
+            .style("stroke", "white")
+            .style("stroke-width", 0.3)
+            .style("fill", "#555555")
+            .attr("letter-spacing", 0.4)
 
+        // blue line
+        let line_path_blue = svg.append("g")
+        .selectAll(".line")
+        .data(grouped_data)
+        .join("path")
+        .filter(function(d) { return d[1].slice(-1)[0]["year"] >= 2021 })
+        .attr("class", function(d) {
+            return "line " +  d[0]
+        })
+        .attr("d", function(d) {
+            return line(d[1])
+        })
+        .style("fill", "none")
+        .style("stroke", "#54b3e5")
+        .style("stroke-width", d => {
+            if(d[0] == "BradTo00") {
+                return "4px"
+            } else {
+                return "1px"
+            }
+        })
+
+        // bottom line
         let baseline = svg.append("line")
-        .attr("x1", margin.left)
-        .attr("x2", width + margin.left)
-        .attr("y1", y(0))
-        .attr("y2", y(0))
-        .style("stroke", "black")
-        .style("stroke-width", "2px")
-
-
+            .attr("x1", margin.left)
+            .attr("x2", width - margin.left)
+            .attr("y1", y(0))
+            .attr("y2", y(0))
+            .style("stroke", "black")
+            .style("stroke-width", "1.5px")
         
-        
-        
-            
-
-
-
-
-
-
-
-
+        // console.log(maxdata)
 
     })
+
 </script>
