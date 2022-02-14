@@ -168,8 +168,8 @@
                     if(d[1].slice(-1)[0]["year_end"] < 2021 && highlighted_players.indexOf(d[0]) == -1){
                         selection.style("stroke", "#d0d0d0").raise()}})
         
-        let allCircles = d3.selectAll(".line");
-        console.log(allCircles)
+        line_path.filter(function(d) {return highlighted_players.indexOf(d[0]) >= 0}).raise();
+        line_path.filter(function(d) {return d[1].slice(-1)[0]["year_end"] >= 2021}).raise();
 
         let points = svg.selectAll("points")
             .data(grouped_data)
@@ -194,6 +194,9 @@
                     return 1.5
                 }
             })
+
+        points.filter(function(d) {return highlighted_players.indexOf(d[0]) >= 0}).raise();
+        points.filter(function(d) {return d[1].slice(-1)[0]["year_end"] >= 2021}).raise();
 
          let labels = svg.selectAll("labels")
             .data(grouped_data)
@@ -266,9 +269,15 @@
                 .transition(t)
                 .attr("d", function(d) { return line(d[1]) })
             
+            line_path.filter(function(d) {return highlighted_players.indexOf(d[0]) >= 0}).raise();
+            line_path.filter(function(d) {return d[1].slice(-1)[0]["year_end"] >= 2021}).raise();
+            
             points
                 .transition(t)
                 .attr("cx", function(d) { return x(d[1].slice(-1)[0][sel_var_max]) })
+
+            points.filter(function(d) {return highlighted_players.indexOf(d[0]) >= 0}).raise();
+            points.filter(function(d) {return d[1].slice(-1)[0]["year_end"] >= 2021}).raise();
             
             labels
                 .transition(t)
