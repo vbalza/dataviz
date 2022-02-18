@@ -26,7 +26,7 @@
             margin-left: 0px;
             font-family: 'Helvetica Neue';
             font-weight: 400;
-            font-size: 24px;
+            font-size: 20px;
         }
 
         .x .tick line {
@@ -71,6 +71,15 @@
             font-family: 'Helvetica Neue';
             letter-spacing: 0.8px;
             font-weight: 300;
+        }
+
+        .subheadline{
+            max-width: 500px;
+            margin: 10px 0px;
+            font-family: 'Helvetica Neue';
+            font-size: 12px;
+            color: black;
+            line-height: 1.5;   
         }
 
         .source {
@@ -141,10 +150,13 @@
         <h1 class="headline">
             Healthcare by Income
         </h1>
-        <header class="flex">
+        <p class="subheadline">
+            Job losses and the loss of insurance have typically gone hand in hand. This year, more Americans are staying covered.        <header class="flex">
         <h2 class="headline2">
             2009
         </h2>
+       <!-- Source for legend:
+            https://stackoverflow.com/questions/7878076/css-to-lay-out-keys-values-legend-horizontally -->
         <ul class="legend">
             <li><span class="med"></span> Medicare and Medicaid </li>
             <li><span class="subex"></span> Subsidized Exchange </li>
@@ -154,7 +166,7 @@
         </ul>
         </header>
         <svg width="1050px" height="575px"></svg>
-        <p class="source">Note: The income measure used here is <em>disposable income</em>, which is defined as market income plus cash transfers from the government and noncash benefits like food stamps and public housing. It excludes taxes, out-of-pocket medical spending, insurance premiums and other expenses. There have been small changes in the census questionnaire between the two survey dates. Source: Current Population Survey, analysis by Matt Bruenig</p>
+        <p class="source">Note: The income measure used here is <em>disposable income</em>, which is defined as market income plus cash transfers from the government and noncash benefits like food stamps and public housing. It excludes taxes, out-of-pocket medical spending, insurance premiums and other expenses. There have been small changes in the census questionnaire between the two survey dates. The graph above is a reproduction of the New York Times Article, "Obamacare, in Its First Big Test as Safety Net, Is Holding Up So Far". This reproduction is for academic purposes only. Source: Current Population Survey, analysis by Matt Bruenig</p>
 
     </div>
 </body>
