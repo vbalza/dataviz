@@ -19,15 +19,19 @@
         }
 
         h1 {
+            margin-top: 20px;
             margin-bottom: 0;
-            font-family: "Franklin Gothic Medium";
+            font-family: "Helvetica Neue";
             font-size: 30px;
+            font-weight: 400;
         }
 
         h2 {
+            margin-top: 20px;
             margin-bottom: 0;
-            font-family: "Franklin Gothic Medium";
-            font-size: 25px;
+            font-family: "Helvetica Neue";
+            font-size: 20px;
+            font-weight: 400;
         }
 
         .x .tick line {
@@ -60,27 +64,55 @@
         }
 
         .change-btn{
-            margin: 10px 0 0 30px;
+            margin: 10px 0px 60px 0px;
             width: 200px;
             height: 30px;
             cursor: pointer;
+        }
+
+        .subheader{
+            font-family: "Helvetica Neue";
+            font-size: 20px;
+            font-weight: 400;
+        }
+
+        .subheadline{
+            max-width:700px;
+            margin: 10px 0px;
+            font-family: 'Helvetica Neue';
+            font-size: 14px;
+            color: black;
+            line-height: 1.5;   
+        }
+
+        .flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: -25px;
         }
 
     </style>
 </head>
 
 <body>
-    <div class="chart-container">
-        <h1 class="headline">
-            One Chart That Reveals Tom Brady's Greatness
-        </h1>
-        <h2>
-            Playoff Wins
-        </h2>
 
+
+    <div class="chart-container">
+        <header class="flex"></header>
+        <h1 class="headline">
+            Tom Brady's Greatness
+        </h1>
+        <p class = "subheadline">
+            Tom Brady has retired from football after a 22-year career of consistent success and unmatched achievement. But his stature as the N.F.L.’s greatest quarterback may be best understood by seeing his achievements stacked up against those of hundreds of others who played the same position.        </p>
+        
+        <h2>Playoff Wins</h2>
         <button class="change-btn">By Age</button>
+        
+        <header class="flex">
 
         <svg width="800px" height="500px"></svg>
+        </header>
     </div>
 </body>
 
@@ -91,7 +123,7 @@
 
     let margin = { top: 0, right: 0, bottom: 30, left: 30 };
     let width = 800;
-    let height = 600;
+    let height = 500;
 
     let sel_var_state = "year";
     let sel_max = "year_end";
@@ -157,6 +189,8 @@
                 else {
                     return "#d0d0d0"}
                 })
+
+                
             .attr("id", (d, i)=> "circles" + i)
             .attr("stroke", "none")
             .attr("cx", function(d) { return x(d[1].slice(-1)[0]["year_end"]) })
