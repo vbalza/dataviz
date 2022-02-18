@@ -67,7 +67,7 @@
 
         .source {
             max-width: 600px;
-            margin: 0px 100px;
+            margin: -20px 100px;
             font-family: 'Helvetica Neue';
             font-size: 12px;
             color: #999999;
@@ -85,6 +85,38 @@
             font-style: normal;
         }
 
+        /* basic positioning */
+        .legend { 
+            list-style: none;
+            float: right;
+            margin-right: 250px;
+            margin-bottom: 0; }
+
+        .legend li { 
+            float: left; 
+            margin-right: 10px; 
+            font-family: 'Helvetica Neue';
+            font-size: 11px;
+            font-weight: 400;}
+    
+        .legend span { 
+            border: 0px solid #ccc; 
+            float: left; 
+            width: 12px; 
+            height: 12px; 
+            margin: 2px; }
+
+        .legend .med { 
+            background-color: #FDD835;}
+        .legend .subex { 
+            background-color: #F06292; }
+        .legend .chip { 
+            background-color: #5C6BC0; }
+        .legend .military { 
+            background-color: #90A4AE; }
+        .legend .other { 
+            background-color: #E0E0E0; }
+
     </style>
 </head>
 
@@ -93,9 +125,14 @@
         <h1 class="headline">
             Healthcare by Income in 2009
         </h1>
-
-        <svg width="1050px" height="575px">
-        </svg>
+        <ul class="legend">
+            <li><span class="med"></span> Medicare and Medicaid </li>
+            <li><span class="subex"></span> Subsidized Exchange </li>
+            <li><span class="chip"></span> CHIP </li>
+            <li><span class="military"></span> Military </li>
+            <li><span class="other"></span> Other </li>
+        </ul>
+        <svg width="1050px" height="575px"></svg>
         <p class="source">Note: The income measure used here is <em>disposable income</em>, which is defined as market income plus cash transfers from the government and noncash benefits like food stamps and public housing. It excludes taxes, out-of-pocket medical spending, insurance premiums and other expenses. There have been small changes in the census questionnaire between the two survey dates. Source: Current Population Survey, analysis by Matt Bruenig</p>
 
     </div>
