@@ -21,6 +21,14 @@
             font-size: 24px;
         }
 
+        h2 {
+            justify-content: left;
+            margin-left: 0px;
+            font-family: 'Helvetica Neue';
+            font-weight: 400;
+            font-size: 24px;
+        }
+
         .x .tick line {
             stroke: rgba(0, 0, 0, .5);
         }
@@ -85,12 +93,18 @@
             font-style: normal;
         }
 
-        /* basic positioning */
+        .flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: -25px;
+        }
+
         .legend { 
             list-style: none;
             float: right;
             margin-right: 250px;
-            margin-bottom: 0; }
+            margin-bottom: 0px; }
 
         .legend li { 
             float: left; 
@@ -104,7 +118,8 @@
             float: left; 
             width: 12px; 
             height: 12px; 
-            margin: 2px; }
+            margin-right: 4px;
+            margin-bottom: 1px; }
 
         .legend .med { 
             background-color: #FDD835;}
@@ -122,9 +137,14 @@
 
 <body>
     <div class="chart-container">
+        
         <h1 class="headline">
-            Healthcare by Income in 2009
+            Healthcare by Income
         </h1>
+        <header class="flex">
+        <h2 class="headline2">
+            2009
+        </h2>
         <ul class="legend">
             <li><span class="med"></span> Medicare and Medicaid </li>
             <li><span class="subex"></span> Subsidized Exchange </li>
@@ -132,6 +152,7 @@
             <li><span class="military"></span> Military </li>
             <li><span class="other"></span> Other </li>
         </ul>
+        </header>
         <svg width="1050px" height="575px"></svg>
         <p class="source">Note: The income measure used here is <em>disposable income</em>, which is defined as market income plus cash transfers from the government and noncash benefits like food stamps and public housing. It excludes taxes, out-of-pocket medical spending, insurance premiums and other expenses. There have been small changes in the census questionnaire between the two survey dates. Source: Current Population Survey, analysis by Matt Bruenig</p>
 
@@ -246,7 +267,7 @@
             .attr("class", "stacks")
 
         let stack;
-        let hed = d3.select(".headline")
+        let hed = d3.select(".headline2")
 
         let labels_x = [650, 50, 60, 80, 805]
         let labels_y = [250, 430, 320, 125, 45]
@@ -314,14 +335,14 @@
                 labels_x = [650, 45, 30, 180, 805];
                 labels_y = [250, 400, 280, 100, 45];
                 dance(series2020, labels_x, labels_y);
-                hed.html("Healthcare by Income in 2020");
+                hed.html("2020");
             }
             else {
                 year_state = 2009;
                 labels_x = [650, 50, 60, 87, 805];
                 labels_y = [270, 430, 330, 125, 43];
                 dance(series2009, labels_x, labels_y);
-                hed.html("Healthcare by Income in 2009");
+                hed.html("2009");
             }
         }
 
