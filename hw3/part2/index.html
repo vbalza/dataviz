@@ -52,9 +52,9 @@
         }
 
         .label {
-            font-size: 22px;
-            font-weight: 300;
-            font-family: 'Helvetica Neue';
+            font-size: 20px;
+            font-weight: 100;
+            font-family: 'Helvetica';
         }
 
         .axis-label {
@@ -214,7 +214,7 @@
         let labels_x = [650, 50, 60, 80, 805]
         let labels_y = [250, 430, 320, 125, 45]
 
-        stacks.selectAll(".stack")
+        stacks.selectAll("path")
             .data(series2009)
             .join("path")
             .attr("class", d => d.key)
@@ -270,47 +270,34 @@
             .attr("y", height + 40)
             .text("income percentile")
             .attr("text-anchor", "middle")
-        
-        // svg.append("text")
-        //     .attr("class", "axis-label")
-        //     .attr("x", width - 30)
-        //     .attr("y", height + 40)
-        //     .text("higher income")
-        //     .attr("text-anchor", "end")
-
-        // svg.append("text")
-        //     .attr("class", "axis-label")
-        //     .attr("x", 30)
-        //     .attr("y", height + 40)
-        //     .text("lower income")
-        //     .attr("text-anchor", "start")
 
         function update(){
             if (year_state == 2009){
                 year_state = 2020;
-                labels_x = [650, 45, 60, 60, 805];
-                labels_y = [250, 420, 300, 87, 45];
+                labels_x = [650, 45, 30, 180, 805];
+                labels_y = [250, 400, 280, 100, 45];
                 dance(series2020, labels_x, labels_y);
                 hed.html("Healthcare by Income in 2020");
             }
             else {
                 year_state = 2009;
-                labels_x = [650, 50, 60, 80, 805];
-                labels_y = [270, 430, 320, 125, 43];
+                labels_x = [650, 50, 60, 87, 805];
+                labels_y = [270, 430, 330, 125, 43];
                 dance(series2009, labels_x, labels_y);
                 hed.html("Healthcare by Income in 2009");
             }
         }
 
         function dance(filtered_data, labels_x, labels_y){
+            let dur_time = 1500;
 
             stacks
-                .selectAll(".stack")
+                .selectAll("path")
                 .data(filtered_data)
                 .join("path")
                 .attr("class", d => d.key)
                 .transition()
-                .duration(2000)
+                .duration(dur_time)
                 .ease(d3.easeCubic)
                 .attr("fill", d => color(d.key))
                 .attr("d", area)
@@ -318,7 +305,7 @@
             
             label_emp
                 .transition()
-                .duration(400)
+                .duration(dur_time)
                 .ease(d3.easeCubic)
                 .attr("class", "label")
                 .attr("x", labels_x[0])
@@ -327,7 +314,7 @@
         
             label_medcaid
                 .transition()
-                .duration(400)
+                .duration(dur_time)
                 .ease(d3.easeCubic)
                 .attr("class", "label")
                 .attr("x", labels_x[1])
@@ -336,7 +323,7 @@
         
             label_mcare
                 .transition()
-                .duration(500)
+                .duration(dur_time)
                 .ease(d3.easeCubic)
                 .attr("class", "label")
                 .attr("x", labels_x[2])
@@ -345,7 +332,7 @@
 
             label_uninsured
                 .transition()
-                .duration(500)
+                .duration(dur_time)
                 .ease(d3.easeCubic)
                 .attr("class", "label")
                 .attr("x", labels_x[3])
@@ -354,7 +341,7 @@
         
             label_dpurchase
                 .transition()
-                .duration(500)
+                .duration(dur_time)
                 .ease(d3.easeCubic)
                 .attr("class", "label")
                 .attr("x", labels_x[4])
@@ -363,13 +350,12 @@
 
         }
 
-        stacks.on("click", () => {
-            timer.stop();
-
+        stacks.on("click", () => { 
+            timer.stop() 
         })
-        var timer = d3.interval(update, 2000)
         
-      
+        var timer = d3.interval(update, 3000)
+    
     })
 
 </script>
