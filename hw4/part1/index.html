@@ -6,38 +6,150 @@
     <style>
         .chart-container {
             max-width: 1050px;
-            border: 3px solid red;
             margin: 0 auto;
-            /* auto centers the div */
             font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
         }
 
         svg {
-            border: 2px solid purple;
             overflow: visible;
-            width: 100%;
-            height: 130%;
         }
-
 
         h1 {
-            border: 2px solid green;
+            font-family: 'Helvetica Neue';
+            font-weight: 400;
+            font-size: 24px;
         }
 
+        h3 {
+            justify-content: left;
+            margin-top: 35px;
+            font-family: 'Helvetica Neue';
+            font-weight: 400;
+            font-size: 20px;
+        }
+
+        .x .tick line {
+            stroke: rgba(0, 0, 0, .5);
+        }
+
+        .y .tick line {
+            stroke: rgba(0, 0, 0, .2);
+        }
+
+        .x .domain {
+            display: none;
+        }
+
+        .y .domain {
+            display: none;
+        }
+
+        .y .tick text {
+            font-size: 12px;
+            fill: #333;
+            font-weight: 300;
+
+        }
+
+        .x .tick text {
+            font-size: 12px;
+            fill: #333;
+            font-weight: 100;
+            letter-spacing: 1px;
+        }
+
+        .label {
+            font-size: 20px;
+            font-weight: 100;
+            font-family: 'Helvetica';
+        }
+
+        .axis-label {
+            font-size: 13px;
+            text-transform: uppercase;
+            font-family: 'Helvetica Neue';
+            letter-spacing: 0.8px;
+            font-weight: 300;
+        }
+
+        .source {
+            max-width: 600px;
+            margin: -20px 100px;
+            font-family: 'Helvetica Neue';
+            font-size: 12px;
+            color: #999999;
+            line-height: 1.5;
+
+        }
+
+        .source em {
+            max-width: 600px;
+            margin: 0;
+            font-family: 'Helvetica Neue';
+            font-size: 12px;
+            color: black;
+            line-height: 1.5;
+            font-style: normal;
+        }
+
+        .flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: -25px;
+            margin-right: -150px;
+        }
+
+        .legend { 
+            list-style: none;
+            float: right;
+            margin-right: 250px;
+            margin-bottom: 0px; }
+
+        .legend li { 
+            float: left; 
+            margin-right: 10px; 
+            font-family: 'Helvetica Neue';
+            font-size: 11px;
+            font-weight: 400;}
+    
+        .legend span { 
+            border: 0px solid #ccc; 
+            float: left; 
+            width: 12px; 
+            height: 12px; 
+            margin-right: 4px;
+            margin-bottom: 1px; }
+
+        .legend .med { 
+            background-color: #FDD835;}
+        .legend .subex { 
+            background-color: #F06292; }
+        .legend .chip { 
+            background-color: #5C6BC0; }
+        .legend .military { 
+            background-color: #90A4AE; }
+        .legend .other { 
+            background-color: #E0E0E0; }
+
         .filler {
-            height: 20rem;
+            height: 5 rem;
             text-align: center;
         }
 
         .filler h2 {
-            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-            font-size: 54px;
+            font-family: 'Helvetica Neue';
+            font-size: 30px;
         }
 
+        .filler h3 {
+            font-family: 'Helvetica Neue';
+            font-size: 30px;
+        }
 
         .filler p {
-            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-            font-size: 24px;
+            font-family: 'Helvetica Neue';
+            font-size: 16px;
             text-align: left;
             margin: 20px auto;
             line-height: 1.2;
@@ -46,11 +158,10 @@
         }
 
         #scrolly-overlay .scrolly {
-            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-family: 'Helvetica Neue';
             font-size: 24px;
             max-width: 60rem;
             margin: 3rem auto;
-            background-color: #f4f4f4;
             padding: 1rem;
             position: relative;
 
@@ -64,7 +175,7 @@
         }
 
         #scrolly-overlay .scrolly article .step {
-            min-height: 67vh;
+            min-height: 115vh;
             margin-bottom: 1rem;
         }
 
@@ -73,7 +184,7 @@
         }
 
         #scrolly-overlay .scrolly article .step.is-active p {
-            background-color: #008080;
+            background-color: black;
         }
 
         #scrolly-overlay .scrolly article .step p {
@@ -87,39 +198,23 @@
         }
 
         #scrolly-overlay .scrolly figure.sticky {
-            /* this is the key style for the chart */
             position: sticky;
             width: 100%;
-            height: 50vh;
-            /* vh is the unit that divdes the viewport in units of 1/100 */
-            /* height is 50 vh = half the height of the viewport */
-            background: #969696;
+            height: 80vh;
             margin: 0;
             top: 25vh;
-            /* this is how high it should be from top */
-
             left: 0;
         }
 
-        #scrolly-overlay .scrolly figure.sticky .bar-outer {
+        #scrolly-overlay .scrolly figure.sticky .svg-chart {
             position: absolute;
-            top: 50%;
-            left: 5%;
-            transform: translateY(-50%);
-            width: 90%;
-            height: 4rem;
-            background-color: #fff;
-        }
-
-        #scrolly-overlay .scrolly figure.sticky .bar-inner {
             width: 10%;
             height: 100%;
             transition: width 1s ease-in-out;
-            background-color: #daa520;
         }
 
         .spacer {
-            height: 800px;
+            height: 300px;
         }
     </style>
 </head>
@@ -127,38 +222,39 @@
 <body>
     <section class='filler'>
 
+        <h2>Health Insurance by Income</h2>
         <p>
-            At the Times we have our very complicated scrollytelling rig. This is a much cleaner, slimmed-down version <a
-                href="https://pudding.cool/process/scrollytelling-sticky/">by Elaina Natario and Russell Goldenberg at
-                the Pudding</a>.
+            Job losses and the loss of insurance in the United States have typically gone hand in hand. Scroll to see how more Americans stayed covered in 2020—upon the COVID-19 pandemic— relative to 2009. 
         </p>
-        <h2>Start Scrolling!</h2>
+        
 
     </section>
 
     <section id='scrolly-overlay'>
 
         <div class='scrolly'>
-
-            <!--  sticky graphic   -->
             <figure class='sticky'>
-                <!-- put your chart stuff here -->
-                <svg></svg>
-                <div class='bar-outer'>
-                <div class='bar-inner'></div>
-                </div>
+                <div class = 'chart-container'>
+                    <header class="flex">
+                        <h3 class="headline"> 2009</h3>
+                        <ul class="legend">
+                            <li><span class="med"></span> Medicare and Medicaid </li>
+                            <li><span class="subex"></span> Subsidized Exchange </li>
+                            <li><span class="chip"></span> CHIP </li>
+                            <li><span class="military"></span> Military </li>
+                            <li><span class="other"></span> Other </li>
+                        </ul>
+                    </header>
+                    <svg width="1050px" height="575px"></svg>
+                    <p class="source">Note: The income measure used here is <em>disposable income</em>, which is defined as market income plus cash transfers from the government and noncash benefits like food stamps and public housing. It excludes taxes, out-of-pocket medical spending, insurance premiums and other expenses. There have been small changes in the census questionnaire between the two survey dates. The graph above is a reproduction of the New York Times Article, "Obamacare, in Its First Big Test as Safety Net, Is Holding Up So Far". This reproduction is for academic purposes only. Source: Current Population Survey, analysis by Matt Bruenig</p>
+
+                    <svg class='svg-chart'></svg>
+
             </figure>
 
-            <!--  step text   -->
             <article>
-                <div class='step' data-width='10%' data-index='0'>
-                    <p>Bar is 10%</p>
-                </div>
-                <div class='step' data-width='90%' data-index='1'>
-                    <p>Bar is 90%</p>
-                </div>
-                <div class='step' data-width='50%' data-index='2'>
-                    <p>Bar is 50%</p>
+                <div class='step' data-index='0', yearConst="2009">
+                    <p>In past recessions, the uninsured rate would surge. In 2020, for the first time, Americans experienced a recession with the Affordable Care Act in place.</p>
                 </div>
             </article>
 
@@ -167,32 +263,21 @@
     </section>
 
     <section class='filler'>
-        <h2>End. Keep scrolling!</h2>
+        <h2> </h2>
  
         <div class="spacer"></div>
-        <p>See? The article continued as normal.</p>
-        <p>
-            So basically the "sticky" positioned element is the figure. Article is relatively position element. When you scroll the through the article element, then the figure "element" unsticks.
-        </p>
-        <p>
-            This is all handled by CSS. The only Javascript is in checking which of the slides are in the viewport and then triggering a function when it is in view.
-        </p>
-        </br>
-        </br>
     </section>
 </body>
 
-<!-- add your script blocks at the end -->
 <script src="https://d3js.org/d3.v6.min.js"></script>
 <script src="https://unpkg.com/enter-view@1.0.0/enter-view.min.js"></script>
-<!-- https://github.com/russellgoldenberg/enter-view -->
-
 
 <script>
 
-    let width = 960;
+    let width = 850;
     let height = 450;
     let svg = d3.select("body").select("svg")
+
     d3.csv("healthcare_disposable.csv").then(function (data) {
         data.forEach(function (row) {
             row["year"] = +row["year"]
@@ -291,10 +376,10 @@
             .attr("class", "stacks")
 
         let stack;
-        let hed = d3.select(".headline2")
+        let hed = d3.select(".headline")
 
-        let labels_x = [650, 50, 60, 80, 805]
-        let labels_y = [250, 430, 320, 125, 45]
+        labels_x = [650, 50, 60, 80, 855];
+        labels_y = [250, 380, 300, 120, 40];
 
         stacks.selectAll("path")
             .data(series2009)
@@ -356,15 +441,15 @@
         function update(){
             if (year_state == 2009){
                 year_state = 2020;
-                labels_x = [650, 45, 30, 180, 805];
-                labels_y = [250, 400, 280, 100, 45];
+                labels_x = [650, 70, 60, 120, 855];
+                labels_y = [250, 360, 260, 85, 43];
                 dance(series2020, labels_x, labels_y);
                 hed.html("2020");
             }
             else {
                 year_state = 2009;
-                labels_x = [650, 50, 60, 87, 805];
-                labels_y = [270, 430, 330, 125, 43];
+                labels_x = [650, 50, 70, 70, 855];
+                labels_y = [250, 380, 300, 120, 40];
                 dance(series2009, labels_x, labels_y);
                 hed.html("2009");
             }
@@ -372,7 +457,6 @@
 
         function dance(filtered_data, labels_x, labels_y){
             let dur_time = 1500;
-
             stacks
                 .selectAll("path")
                 .data(filtered_data)
@@ -432,32 +516,26 @@
 
         }
 
-        stacks.on("click", () => { 
-            timer.stop() 
-        })
-    
-    })
+        const container = d3.select('#scrolly-overlay');
+        const stepSel = container.selectAll('.step'); //final all the step nodes
+        
+        function updateChart(index) {
+            const sel = container.select(`[data-index='${index}']`);
+            const yearConst = parseInt(sel.attr('yearConst'));
+            stepSel.classed('is-active', (d, i) => i === index);
+            update(yearConst);
+        }   
 
-    const container = d3.select('#scrolly-overlay');
-    const stepSel = container.selectAll('.step'); //final all the step nodes
+        function init() {
 
-    function updateChart(index) {
-        const sel = container.select(`[data-index='${index}']`);
-        const width = sel.attr('data-width');
-        stepSel.classed('is-active', (d, i) => i === index);
-        container.select('.bar-inner').style('width', width);
-    }
-
-    function init() {
-
-        enterView({ //our main view function
+            enterView({ 
             selector: stepSel.nodes(),
-            offset: 0.5, //when the slide is 50% away then trigger your chart
-            enter: el => { //what's supposed to happen when the slide enters?
-                const index = +d3.select(el).attr('data-index'); //extract the data-index attribute. this can be anything: a filter, a date, whatever.
+            offset: 0.5, 
+            enter: el => { 
+                const index = +d3.select(el).attr('data-index'); 
                 updateChart(index);
             },
-            exit: el => { //what's supposed to happen when the slide exits?
+            exit: el => {
                 let index = +d3.select(el).attr('data-index');
                 index = Math.max(0, index - 1);
                 updateChart(index);
@@ -467,4 +545,7 @@
     }
 
     init();
+
+})
+
 </script>
