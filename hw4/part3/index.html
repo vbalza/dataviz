@@ -50,7 +50,7 @@
 
     // //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
     Promise.all([ 
-        d3.json('county_topo_3.json'),
+        d3.json('county_final.json'),
     ])
         .then(ready)
         .catch((err) => {
@@ -60,6 +60,7 @@
     function ready(res) {
         let raw = res[0]
         let county = topojson.feature(raw, raw.objects.county)
+        // console.log(county.features)
         let state = topojson.feature(raw, raw.objects.state)
 
         let width = 1050;
@@ -96,26 +97,25 @@
             .style("pointer-events", "none")
         
         let scaleFunction = d3.scaleSqrt()
-            .domain([])
-            .range([])
+            .domain([0, 500])
+            .range([1, 2]);
 
         let counties = svg
             .append("g")
             .selectAll(".counties")
             .data(county.features)
             .join("circle")
-            .attr("r", 1)
-            // d => scaleFunction(d))
+            .attr("r", function (d) { return scaleFunction(d.properties.pop_18_in_poverty) })
             .attr("cx", d => {
                 return path.centroid(d)[0]
             })
             .attr("cy", d => {
                 return path.centroid(d)[1]})
-            //.attr("d", path)
             .attr("class", d => d.properties.GEOID)
-            .style("fill", "red")
+            .style("fill", "#ffa500")
             .style("stroke", "#ccc")
             .style("stroke-width", .2)
+            .style("fill-opacity", .5)
 
     }
 
