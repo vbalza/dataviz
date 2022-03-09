@@ -3,50 +3,57 @@
 <html>
 
     <head>
-        <title>PPHA 30560 Final Project: Valeria Balza</title>
-        <meta charset="utf-8" />
+      <title>Palm Oil</title>
+      <meta charset="utf-8" />
     	<meta name="viewport" content="width=device-width, initial-scale=1">
 
     	<link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>        
-        <link href="styles.css" rel="stylesheet"></style>
+      <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>        
+      <link href="styles.css" rel="stylesheet"></style>
 
-        <script src="https://d3js.org/d3.v6.min.js"></script>
-        <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+      <script src="https://d3js.org/d3.v6.min.js"></script>
+      <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
     </head>
 
     <body>
-      <h1 class=highlightgreen>
-        Is there an alternative to palm oil?
+      <h1>
+      Palm oil: Threats to the environment <br>
+      and possible alternatives
       </h1>
 
       <div id="intro">
         <h2>
-          Blurb here. Blurb here. Blurb here. Blurb here.
-          Blurb here. Blurb here. Blurb here. Blurb here.
+          By: Valeria Balza
         </h2>
       </div>
 
       <br>
+
+      <p>
+        If you have tried to avoid consuming palm oil—chances are, you haven’t. 
+        This ubiquitous product derived from the oil palm tree is found in roughly half of all packaged goods, 
+        from chocolate and cleaning agents to biofuels and bread.
+      </p>
       <br>
+
       <hr>
       <br>
 
-      <!-- <div class='spacer'></div> -->
-
       <div class="chart-container">
-          <h5 class="hed"> Chart 1 Title </h5>
-
+          <h5 class="hed"> Global Oil Palm Production </h5>
           <p class="caption">
-            Chart subheader.
+            Oil palm is relatively cheap, highly versatile, and efficient to produce, prompting a 
+            rise in global production since the 1970s. While it is cultivated in over 40 
+            countries—primarily along the equator where high rainfall and steady sunshine prevail—Indonesia and 
+            Malaysia dominate the market, generating approximately 85% of the entire supply.   
           </p>
-
+    
           <svg width="850px" height="500px" id="palm-production"></svg>
 
           <div class='spacer'></div>
 
           <p class="source">
-            Chart 1 Notes.
+            Source: Our World in Data
           </p>
       </div>
 
@@ -55,13 +62,17 @@
       <br>
 
       <div class="chart-container">
-          <h5> Chart 2 Title </h5>
+          <h5> Environmental Threats </h5>
 
           <p class="caption">
-            Chart 2 header.
+            The proliferation of industrial and smallholder plantations across the tropics has come 
+            at widespread environmental and social costs, as oil palm development has been linked to habitat 
+            loss and degradation, declines in species populations, and human rights violations. Across regions, 
+            producers looking to expand production have encroached upon tropical forests and other habitats, 
+            releasing carbon dioxide and other greenhouse gases into the atmosphere. 
           </p>
 
-          <svg width="850px" height="500px" id="second-chart"></svg>
+          <svg width="850px" height="500px" id="environmental-threats"></svg>
 
           <div class='spacer'></div>
 
@@ -114,6 +125,7 @@
     </body>
 
     <script src="scripts/palm-production.js"></script>
+    <script src="scripts/environmental-threats.js"></script>
     <!-- <script src="scripts/stacked-bar-chart.js"></script>
     <script src="scripts/multiple-line-chart.js"></script>
     <script src="scripts/bubble-chart.js"></script>
