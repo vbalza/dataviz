@@ -1,9 +1,9 @@
-const margin = {top: 60, right: 230, bottom: 50, left: 50},
+let margin = {top: 60, right: 230, bottom: 50, left: 50},
     width = 850 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
-const svg = d3.select("#palm-production")
-    .append("svg")
+let svgProd = d3.select("body")
+    .select("#palm-production")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
@@ -20,28 +20,28 @@ d3.csv("data/topproducers_wide.csv").then(function(data) {
 
   // Add X axis
   let x = d3.scaleLinear()
-    .domain(d3.extent(data, function(d) { return d.year; }))
-    .range([ 0, width ]);
+      .domain(d3.extent(data, function(d) { return d.year; }))
+      .range([ 0, width ]);
     
   let xAxisSettings = d3.axisBottom(x)
-    .tickValues([1961, 1970, 1980, 1990, 2000, 2010, 2018])
-    .tickFormat(d3.format("d"))
-    .tickPadding(10);
+      .tickValues([1961, 1970, 1980, 1990, 2000, 2010, 2018])
+      .tickFormat(d3.format("d"))
+      .tickPadding(10);
     
-  let xAxis = svg.append("g")
-  .attr("class", "x axis")
-  .call(xAxisSettings)
-  .attr("transform", `translate(0, ${height})`)
+  let xAxis = svgProd.append("g")
+      .attr("class", "x axis")
+      .call(xAxisSettings)
+      .attr("transform", `translate(0, ${height})`)
 
   // Add X axis label:
-  svg.append("text")
+  svgProd.append("text")
       .attr("text-anchor", "end")
       .attr("x", width/2)
       .attr("y", height+60 )
       .text("Year");
 
   // Add Y axis label:
-  svg.append("text")
+  svgProd.append("text")
       .attr("text-anchor", "end")
       .attr("x", 0)
       .attr("y", -20 )
@@ -57,21 +57,21 @@ d3.csv("data/topproducers_wide.csv").then(function(data) {
     .ticks(5)
     .tickFormat(function(d){return d/1000000})
 
-  svg.append("g")
+  svgProd.append("g")
     .call(yAxisSettings)
   
-  const keys = data.columns.slice(1)
+  let keys = data.columns.slice(1)
     console.log(keys)
   
     // color palette
-  const color = d3.scaleOrdinal()
+  let color = d3.scaleOrdinal()
       .domain(keys)
       .range(["#ff6361", // Indonesia
               "#bc5090", // Malaysia
               "#ffa600" // Other
           ]);
   
-    const stackedData = d3.stack()
+    let stackedData = d3.stack()
       .keys(keys)
       (data)
     
@@ -80,7 +80,7 @@ d3.csv("data/topproducers_wide.csv").then(function(data) {
   // BRUSHING AND CHART //
   //////////
 
-  let baseline = svg.append("line")
+  let baseline = svgProd.append("line")
             .attr("x1", margin)
             .attr("x2", width)
             .attr("y1", y(0))
@@ -89,7 +89,7 @@ d3.csv("data/topproducers_wide.csv").then(function(data) {
             .style("stroke-width", "1.5px")
 
   // Add a clipPath: everything out of this area won't be drawn.
-  const clip = svg.append("defs").append("svg:clipPath")
+  let clip = svgProd.append("defs").append("svg:clipPath")
       .attr("id", "clip")
       .append("svg:rect")
       .attr("width", width )
@@ -98,16 +98,16 @@ d3.csv("data/topproducers_wide.csv").then(function(data) {
       .attr("y", 0);
 
   // Add brushing
-  const brush = d3.brushX()                 // Add the brush feature using the d3.brush function
+  let brush = d3.brushX()                 // Add the brush feature using the d3.brush function
       .extent( [ [0,0], [width,height] ] ) // initialise the brush area: start at 0,0 and finishes at width,height: it means I select the whole graph area
       .on("end", updateChart) // Each time the brush selection changes, trigger the 'updateChart' function
 
   // Create the scatter variable: where both the circles and the brush take place
-  const areaChart = svg.append('g')
+  let areaChart = svgProd.append('g')
     .attr("clip-path", "url(#clip)")
 
   // Area generator
-  const area = d3.area()
+  let area = d3.area()
     .x(function(d) { return x(d.data.year); })
     .y0(function(d) { return y(d[0]); })
     .y1(function(d) { return y(d[1]); })
@@ -158,7 +158,7 @@ d3.csv("data/topproducers_wide.csv").then(function(data) {
     //////////
 
     // What to do when one group is hovered
-    const highlight = function(event, d){
+    let highlight = function(event, d){
       // reduce opacity of all groups
       d3.selectAll(".myArea").style("opacity", .1)
       // expect the one that is hovered
@@ -166,7 +166,7 @@ d3.csv("data/topproducers_wide.csv").then(function(data) {
     }
 
     // And when it is not hovered anymore
-    const noHighlight = function(event,d){
+    let noHighlight = function(event,d){
       d3.selectAll(".myArea").style("opacity", 1)
     }
 
@@ -175,8 +175,8 @@ d3.csv("data/topproducers_wide.csv").then(function(data) {
     //////////
 
     // Add one dot in the legend for each name.
-    const size = 20
-    svg.selectAll("myrect")
+    let size = 20
+    svgProd.selectAll("myrect")
       .data(keys)
       .join("rect")
         .attr("x", 600)
@@ -188,7 +188,7 @@ d3.csv("data/topproducers_wide.csv").then(function(data) {
         .on("mouseleave", noHighlight)
 
     // Add one dot in the legend for each name.
-    svg.selectAll("mylabels")
+    svgProd.selectAll("mylabels")
       .data(keys)
       .join("text")
         .attr("x", 600 + size*1.2)
