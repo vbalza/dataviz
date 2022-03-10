@@ -13,65 +13,80 @@ const svg = d3.select("#palm-production")
 d3.csv("data/topproducers_wide.csv").then(function(data) {
 
   // List of groups = header of the csv files
-  const keys = data.columns.slice(1)
-  console.log(keys)
-
-  // color palette
-  const color = d3.scaleOrdinal()
-    .domain(keys)
-    .range(["#f44336", // China
-            "#FF9800", // Colombia
-            "#FDD835", // Cote d'Ivoire
-            "#26A69A", // Ecuador
-            "#4DD0E1", // Indonesia
-            "#F06292", // Malaysia
-            "#5C6BC0", // Nigeria
-            "#90A4AE", // Papua New Guinea
-            "#E0E0E0" // Thailand
-        ]);
-
-  const stackedData = d3.stack()
-    .keys(keys)
-    (data)
 
   //////////
   // AXIS //
   //////////
 
   // Add X axis
-  const x = d3.scaleLinear()
+  let x = d3.scaleLinear()
     .domain(d3.extent(data, function(d) { return d.year; }))
     .range([ 0, width ]);
-
-  const xAxis = svg.append("g")
-    .attr("transform", `translate(0, ${height})`)
-    .call(d3.axisBottom(x).ticks(5))
+    
+  let xAxisSettings = d3.axisBottom(x)
+    .tickValues([1961, 1970, 1980, 1990, 2000, 2010, 2018])
+    .tickFormat(d3.format("d"))
+    .tickPadding(10);
+    
+  let xAxis = svg.append("g")
+  .attr("class", "x axis")
+  .call(xAxisSettings)
+  .attr("transform", `translate(0, ${height})`)
 
   // Add X axis label:
   svg.append("text")
       .attr("text-anchor", "end")
-      .attr("x", width)
-      .attr("y", height+40 )
-      .text("Time (year)");
+      .attr("x", width/2)
+      .attr("y", height+60 )
+      .text("Year");
 
   // Add Y axis label:
   svg.append("text")
       .attr("text-anchor", "end")
       .attr("x", 0)
       .attr("y", -20 )
-      .text("# of baby born")
+      .text("million tonnes")
       .attr("text-anchor", "start")
 
   // Add Y axis
-  const y = d3.scaleLinear()
+  let y = d3.scaleLinear()
     .domain([0, 70000000])
     .range([ height, 0 ]);
+  
+  let yAxisSettings = d3.axisLeft(y)
+    .ticks(5)
+    .tickFormat(function(d){return d/1000000})
+
   svg.append("g")
-    .call(d3.axisLeft(y).ticks(5))
+    .call(yAxisSettings)
+  
+  const keys = data.columns.slice(1)
+    console.log(keys)
+  
+    // color palette
+  const color = d3.scaleOrdinal()
+      .domain(keys)
+      .range(["#ff6361", // Indonesia
+              "#bc5090", // Malaysia
+              "#ffa600" // Other
+          ]);
+  
+    const stackedData = d3.stack()
+      .keys(keys)
+      (data)
+    
 
   //////////
   // BRUSHING AND CHART //
   //////////
+
+  let baseline = svg.append("line")
+            .attr("x1", margin)
+            .attr("x2", width)
+            .attr("y1", y(0))
+            .attr("y2", y(0))
+            .style("stroke", "black")
+            .style("stroke-width", "1.5px")
 
   // Add a clipPath: everything out of this area won't be drawn.
   const clip = svg.append("defs").append("svg:clipPath")
@@ -122,29 +137,28 @@ d3.csv("data/topproducers_wide.csv").then(function(data) {
 
     // If no selection, back to initial coordinate. Otherwise, update X axis domain
     if(!extent){
-      if (!idleTimeout) return idleTimeout = setTimeout(idled, 350); // This allows to wait a little bit
+      if (!idleTimeout) 
+      return idleTimeout = setTimeout(idled, 350); // This allows to wait a little bit
       x.domain(d3.extent(data, function(d) { return d.year; }))
-    }else{
+    } else{
       x.domain([ x.invert(extent[0]), x.invert(extent[1]) ])
       areaChart.select(".brush").call(brush.move, null) // This remove the grey brush area as soon as the selection has been done
     }
 
     // Update axis and area position
-    xAxis.transition().duration(1000).call(d3.axisBottom(x).ticks(5))
+    xAxis.transition().duration(1000).call(d3.axisBottom(x).ticks(5).tickFormat(d3.format("d")))
     areaChart
       .selectAll("path")
       .transition().duration(1000)
       .attr("d", area)
     }
 
-
-
     //////////
     // HIGHLIGHT GROUP //
     //////////
 
     // What to do when one group is hovered
-    const highlight = function(event,d){
+    const highlight = function(event, d){
       // reduce opacity of all groups
       d3.selectAll(".myArea").style("opacity", .1)
       // expect the one that is hovered
@@ -165,7 +179,7 @@ d3.csv("data/topproducers_wide.csv").then(function(data) {
     svg.selectAll("myrect")
       .data(keys)
       .join("rect")
-        .attr("x", 400)
+        .attr("x", 600)
         .attr("y", function(d,i){ return 10 + i*(size+5)}) // 100 is where the first dot appears. 25 is the distance between dots
         .attr("width", size)
         .attr("height", size)
@@ -177,9 +191,9 @@ d3.csv("data/topproducers_wide.csv").then(function(data) {
     svg.selectAll("mylabels")
       .data(keys)
       .join("text")
-        .attr("x", 400 + size*1.2)
+        .attr("x", 600 + size*1.2)
         .attr("y", function(d,i){ return 10 + i*(size+5) + (size/2)}) // 100 is where the first dot appears. 25 is the distance between dots
-        .style("fill", function(d){ return color(d)})
+        .style("fill", "black")
         .text(function(d){ return d})
         .attr("text-anchor", "left")
         .style("alignment-baseline", "middle")
