@@ -46,16 +46,16 @@
             countries—primarily along the equator where high rainfall and steady sunshine prevail—Indonesia and 
             Malaysia dominate the market, generating approximately 85% of the entire supply.   
           </p>
-
-          <p class="annotation">
-            Zoom on a specific time frame by dragging the mouse. Double-click to zoom out.
-            <br>
-            Highlight a specific group by hovering the legend.
-          </p>
           
           <svg width="850px" height="500px" id="palm-production"></svg>
 
           <div class='spacer'></div>
+
+          <p class="source">
+            Zoom on a specific time frame by dragging the mouse. Double-click to zoom out.
+            <br>
+            Highlight a specific group by hovering the legend.
+          </p>
 
           <p class="source">
             Source: Our World in Data
@@ -81,6 +81,12 @@
 
           <div class='spacer'></div>
 
+          <p class="source">
+            Zoom on a specific time frame by dragging the mouse. Double-click to zoom out.
+            <br>
+            Highlight a specific group by hovering the legend.
+          </p>
+
           <p class="source">Source: World Resources Institute</p>
       </div>
 
@@ -90,22 +96,30 @@
 
       <div class="chart-container">
           <h5>
-            Greenhouse gas emissions from peatland conversion
+            Greenhouse gas emissions from peatland conversion for oil palm
           </h5>
           <p class="caption">
             In Southeast Asia, oil palm cultivation has degraded tropical peatlands, swampy ecosystems that store as 
-            much as 18 to 28 times more carbon than forests. When drained, peatlands are especially susceptible to 
-            fires, which can produce a considerable amount of smoke and other pollutants.
+            much as 18 to 28 times more carbon than forests. When drained, peatlands release large amounts of 
+            carbon dioxide and other greenhouse gases into the atmosphere. Indeed, one study estimates plantation 
+            expansion in Indonesia released more than 558 million metric tons of carbon dioxide (CO2) into the 
+            atmosphere in 2020—more than all of Canada's fossil fuel emissions for the same year.
           </p>
 
           <br>
           <br>
 
+          <button onclick="functionName(co2)" class="button"> Carbon dioxide </button>
+          <button onclick="functionName(methane)" class="button"> Methane </button>
+          <button onclick="functionName(nitrous)" class="button"> Nitrous oxide</button>
+
           <svg width="850px" height="500px" id="peatland-conversion"></svg>
 
           <div class='spacer'></div>
 
-          <p class="source">Chart 3 notes</p>
+          <p class="source">
+            Source: Cooper, H., Evers, S., Aplin, P. et al. (2020).
+          </p>
 
       </div>
 
@@ -115,13 +129,13 @@
 
       <div class="chart-container">
           <h5>
-            Chart 4 Title.
+            Vegetable oil yields
           </h5>
           <p class="caption">
             Chart 4 header.
           </p>
-
-          <svg width="850px" height="500px" id="bubble-chart"></svg>
+          
+          <svg width="850px" height="500px" id="vegetable-oils"></svg>
 
           <div class='spacer'></div>
 
@@ -131,13 +145,11 @@
 
     </body>
 
-    <script src="scripts/palm-production.js"></script>
-    <script src="scripts/environmental-threats.js"></script>
-    <script src="scripts/peatland-conversion.js"></script>
-    <!-- <script src="scripts/stacked-bar-chart.js"></script>
-    <script src="scripts/multiple-line-chart.js"></script>
-    <script src="scripts/bubble-chart.js"></script>
-    <script src="scripts/dancing-bar-chart.js"></script> -->
+    <script type="text/javascript" src="scripts/palm-production.js"></script>
+    <script type="text/javascript" src="scripts/environmental-threats.js"></script>
+    <script type="text/javascript" src="scripts/peatland-conversion.js"></script>
+    <script type="text/javascript" src="scripts/vegetable-oils.js"></script>
+
 
 
 </html>
