@@ -17,8 +17,7 @@
 
     <body>
       <h1>
-      Palm oil: Threats to the environment <br>
-      and possible alternatives
+      Palm oil. <br> Should we really be banning it?
       </h1>
 
       <div id="intro">
@@ -40,14 +39,20 @@
       <br>
 
       <div class="chart-container">
-          <h5 class="hed"> Global Oil Palm Production </h5>
+          <h5 class="hed"> Global oil palm production </h5>
           <p class="caption">
             Oil palm is relatively cheap, highly versatile, and efficient to produce, prompting a 
             rise in global production since the 1970s. While it is cultivated in over 40 
             countries—primarily along the equator where high rainfall and steady sunshine prevail—Indonesia and 
             Malaysia dominate the market, generating approximately 85% of the entire supply.   
           </p>
-    
+
+          <p class="annotation">
+            Zoom on a specific time frame by dragging the mouse. Double-click to zoom out.
+            <br>
+            Highlight a specific group by hovering the legend.
+          </p>
+          
           <svg width="850px" height="500px" id="palm-production"></svg>
 
           <div class='spacer'></div>
@@ -58,25 +63,25 @@
       </div>
 
       <br>
-      <hr>
+      <br>
       <br>
 
       <div class="chart-container">
-          <h5> Environmental Threats </h5>
+          <h5> Total forest area replaced by oil palm</h5>
 
           <p class="caption">
-            The proliferation of industrial and smallholder plantations across the tropics has come 
-            at widespread environmental and social costs, as oil palm development has been linked to habitat 
-            loss and degradation, declines in species populations, and human rights violations. Across regions, 
-            producers looking to expand production have encroached upon tropical forests and other habitats, 
-            releasing carbon dioxide and other greenhouse gases into the atmosphere. 
+
+            The proliferation of industrial and smallholder plantations has come at widespread 
+            environmental costs. Across regions, producers looking to expand production have 
+            encroached upon tropical forests and other habitats, releasing carbon dioxide and 
+            other greenhouse gases into the atmosphere. 
           </p>
 
           <svg width="850px" height="500px" id="environmental-threats"></svg>
 
           <div class='spacer'></div>
 
-          <p class="source">Chart 2 notes</p>
+          <p class="source">Source: World Resources Institute</p>
       </div>
 
       <br>
@@ -85,16 +90,18 @@
 
       <div class="chart-container">
           <h5>
-            Chart 3 Title
+            Greenhouse gas emissions from peatland conversion
           </h5>
           <p class="caption">
-            Chart 3 header.
+            In Southeast Asia, oil palm cultivation has degraded tropical peatlands, swampy ecosystems that store as 
+            much as 18 to 28 times more carbon than forests. When drained, peatlands are especially susceptible to 
+            fires, which can produce a considerable amount of smoke and other pollutants.
           </p>
 
           <br>
           <br>
 
-          <svg width="850px" height="500px" id="third-chart"></svg>
+          <svg width="850px" height="500px" id="peatland-conversion"></svg>
 
           <div class='spacer'></div>
 
@@ -126,6 +133,7 @@
 
     <script src="scripts/palm-production.js"></script>
     <script src="scripts/environmental-threats.js"></script>
+    <script src="scripts/peatland-conversion.js"></script>
     <!-- <script src="scripts/stacked-bar-chart.js"></script>
     <script src="scripts/multiple-line-chart.js"></script>
     <script src="scripts/bubble-chart.js"></script>

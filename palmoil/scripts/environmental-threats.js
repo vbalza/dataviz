@@ -1,72 +1,70 @@
-
-let svgProd = d3.select("body")
-    .select("#palm-production")
+let svgThreats = d3.select("body")
+    .select("#environmental-threats")
     .append("g")
 
-d3.csv("data/topproducers_wide.csv").then(function(data) {
+d3.csv("data/deforestation.csv").then(function(data) {
     console.log(data)
 
     let margin = {top: 60, right: 230, bottom: 50, left: 50};
     let width = 850 - margin.left - margin.right;
     let height = 500 - margin.top - margin.bottom;
 
-    svgProd
-        .attr("transform", `translate(${margin.left}, ${margin.top})`)
+    svgThreats
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
+        .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
     let x = d3.scaleLinear()
         .domain(d3.extent(data, function(d) { return d.year; }))
         .range([ 0, width ]);
     
     let xAxisSettings = d3.axisBottom(x)
-        .tickValues([1961, 1970, 1980, 1990, 2000, 2010, 2018])
+        .tickValues([2001, 2003, 2005, 2007, 2009, 2011, 2013, 2015])
         .tickFormat(d3.format("d"))
         .tickPadding(10);
     
-    let xAxis = svgProd.append("g")
+    let xAxis = svgThreats.append("g")
         .attr("class", "x axis")
         .call(xAxisSettings)
         .attr("transform", `translate(0, ${height})`)
 
-    svgProd.append("text")
+    svgThreats.append("text")
         .attr("text-anchor", "end")
         .attr("x", width/2)
         .attr("y", height+60 )
         .text("Year");
 
-    svgProd.append("text")
+    svgThreats.append("text")
         .attr("text-anchor", "end")
         .attr("x", 0)
         .attr("y", -20 )
-        .text("million tonnes")
+        .text("thousand hectares")
         .attr("text-anchor", "start")
 
     let y = d3.scaleLinear()
-        .domain([0, 70000000])
+        .domain([0, 3000])
         .range([ height, 0 ]);
   
     let yAxisSettings = d3.axisLeft(y)
         .ticks(5)
-        .tickFormat(function(d){return d/1000000})
+        .tickFormat(function(d){return d})
 
-    svgProd.append("g")
+    svgThreats.append("g")
         .call(yAxisSettings)
   
     let keys = data.columns.slice(1)
   
     let color = d3.scaleOrdinal()
         .domain(keys)
-        .range(["#ff6361", // Indonesia
-                "#bc5090", // Malaysia
-                "#ffa600" // Other
+        .range(["#bad0af", 
+                "#488f31"
             ]);
   
     let stackedData = d3.stack()
         .keys(keys)
         (data)
 
-    let baseline = svgProd.append("line")
+    let baseline = svgThreats.append("line")
         .attr("x1", margin)
         .attr("x2", width)
         .attr("y1", y(0))
@@ -74,7 +72,7 @@ d3.csv("data/topproducers_wide.csv").then(function(data) {
         .style("stroke", "black")
         .style("stroke-width", "1.5px")
 
-    let clip = svgProd.append("defs").append("svg:clipPath")
+    let clip = svgThreats.append("defs").append("svg:clipPath")
         .attr("id", "clip")
         .append("svg:rect")
         .attr("width", width )
@@ -86,14 +84,14 @@ d3.csv("data/topproducers_wide.csv").then(function(data) {
         .extent( [ [0,0], [width,height] ] ) 
         .on("end", updateChart)
 
-    let areaChart = svgProd.append('g')
+    let areaChart = svgThreats.append('g')
         .attr("clip-path", "url(#clip)")
 
     let area = d3.area()
         .x(function(d) { return x(d.data.year); })
         .y0(function(d) { return y(d[0]); })
         .y1(function(d) { return y(d[1]); })
-        // .curve(d3.curveBasis);
+        .curve(d3.curveMonotoneX);
 
     areaChart
         .selectAll("mylayers")
@@ -144,7 +142,7 @@ d3.csv("data/topproducers_wide.csv").then(function(data) {
 
     let size = 20
     
-    svgProd.selectAll("myrect")
+    svgThreats.selectAll("myrect")
         .data(keys)
         .join("rect")
         .attr("x", 600)
@@ -155,7 +153,7 @@ d3.csv("data/topproducers_wide.csv").then(function(data) {
         .on("mouseover", highlight)
         .on("mouseleave", noHighlight)
 
-    svgProd.selectAll("mylabels")
+    svgThreats.selectAll("mylabels")
         .data(keys)
         .join("text")
         .attr("x", 600 + size*1.2)
