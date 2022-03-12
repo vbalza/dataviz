@@ -3,7 +3,6 @@ let svgThreats = d3.select("body")
     .append("g")
 
 d3.csv("data/deforestation.csv").then(function(data) {
-    console.log(data)
 
     let margin = {top: 60, right: 230, bottom: 50, left: 50};
     let width = 850 - margin.left - margin.right;
@@ -47,7 +46,6 @@ d3.csv("data/deforestation.csv").then(function(data) {
   
     let yAxisSettings = d3.axisLeft(y)
         .ticks(5)
-        .tickFormat(function(d){return d})
 
     svgThreats.append("g")
         .call(yAxisSettings)
@@ -57,14 +55,13 @@ d3.csv("data/deforestation.csv").then(function(data) {
     let color = d3.scaleOrdinal()
         .domain(keys)
         .range(["#bad0af", 
-                "#488f31"
-            ]);
+                "#488f31" ]);
   
     let stackedData = d3.stack()
         .keys(keys)
         (data)
 
-    let baseline = svgThreats.append("line")
+    svgThreats.append("line")
         .attr("x1", margin)
         .attr("x2", width)
         .attr("y1", y(0))
@@ -97,7 +94,7 @@ d3.csv("data/deforestation.csv").then(function(data) {
         .selectAll("mylayers")
         .data(stackedData)
         .join("path")
-        .attr("class", function(d) { return "myArea " + d.key })
+        .attr("class", function(d) { return "myArea" + d.key })
         .style("fill", function(d) { return color(d.key); })
         .attr("d", area)
 
@@ -114,11 +111,11 @@ d3.csv("data/deforestation.csv").then(function(data) {
 
         if(!extent){
             if (!idleTimeout) 
-            return idleTimeout = setTimeout(idled, 350); // This allows to wait a little bit
+            return idleTimeout = setTimeout(idled, 350);
             x.domain(d3.extent(data, function(d) { return d.year; }))
         } else{
             x.domain([ x.invert(extent[0]), x.invert(extent[1]) ])
-            areaChart.select(".brush").call(brush.move, null) // This remove the grey brush area as soon as the selection has been done
+            areaChart.select(".brush").call(brush.move, null)
         }
 
       xAxis.transition()
@@ -146,10 +143,10 @@ d3.csv("data/deforestation.csv").then(function(data) {
         .data(keys)
         .join("rect")
         .attr("x", 600)
-        .attr("y", function(d,i){ return 10 + i*(size+5)})
+        .attr("y", function(d, i){ return 10 + i*(size+5)})
         .attr("width", size)
         .attr("height", size)
-        .style("fill", function(d){ return color(d)})
+        .style("fill", function(d){ return color(d) })
         .on("mouseover", highlight)
         .on("mouseleave", noHighlight)
 
@@ -157,7 +154,7 @@ d3.csv("data/deforestation.csv").then(function(data) {
         .data(keys)
         .join("text")
         .attr("x", 600 + size*1.2)
-        .attr("y", function(d,i){ return 10 + i*(size+5) + (size/2)})
+        .attr("y", function(d, i){ return 10 + i*(size+5) + (size/2)})
         .style("fill", "black")
         .text(function(d){ return d})
         .attr("text-anchor", "left")

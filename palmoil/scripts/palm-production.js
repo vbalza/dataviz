@@ -4,7 +4,6 @@ let svgProd = d3.select("body")
     .append("g")
 
 d3.csv("data/topproducers_wide.csv").then(function(data) {
-    console.log(data)
 
     let margin = {top: 60, right: 230, bottom: 50, left: 50};
     let width = 850 - margin.left - margin.right;
@@ -93,7 +92,6 @@ d3.csv("data/topproducers_wide.csv").then(function(data) {
         .x(function(d) { return x(d.data.year); })
         .y0(function(d) { return y(d[0]); })
         .y1(function(d) { return y(d[1]); })
-        // .curve(d3.curveBasis);
 
     areaChart
         .selectAll("mylayers")
@@ -116,11 +114,11 @@ d3.csv("data/topproducers_wide.csv").then(function(data) {
 
         if(!extent){
             if (!idleTimeout) 
-            return idleTimeout = setTimeout(idled, 350); // This allows to wait a little bit
+            return idleTimeout = setTimeout(idled, 350);
             x.domain(d3.extent(data, function(d) { return d.year; }))
         } else{
             x.domain([ x.invert(extent[0]), x.invert(extent[1]) ])
-            areaChart.select(".brush").call(brush.move, null) // This remove the grey brush area as soon as the selection has been done
+            areaChart.select(".brush").call(brush.move, null)
         }
 
       xAxis.transition()
