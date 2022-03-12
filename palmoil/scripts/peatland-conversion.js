@@ -22,19 +22,19 @@ const co2 = [
     {group: "Forest (Rs)", value: 50.904},
     {group: "Drained", value: 88.492},
     {group: "Young Oil Palm", value: 81.374},
-    {group: "Mature Oil palm", value: 54.41} ];
+    {group: "Mature Oil Palm", value: 54.41} ];
          
 const methane = [
     {group: "Forest (Rs)", value: 14.8778},
     {group: "Drained", value: 0.5242},
     {group: "Young Oil Palm", value: 2.6774},
-    {group: "Mature Oil palm", value: 7.6752} ];
+    {group: "Mature Oil Palm", value: 7.6752} ];
 
 const nitrous = [
     {group: "Forest (Rs)", value: 14.22},
     {group: "Drained", value: 48.018},
     {group: "Young Oil Palm", value: 174.486},
-    {group: "Mature Oil palm", value: 35.278} ];
+    {group: "Mature Oil Palm", value: 35.278} ];
 
 let x = d3.scaleBand()
     .range([ 0, width ])

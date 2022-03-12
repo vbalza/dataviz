@@ -39,7 +39,7 @@ d3.csv("data/topproducers_wide.csv").then(function(data) {
         .attr("text-anchor", "end")
         .attr("x", 0)
         .attr("y", -20 )
-        .text("million tonnes")
+        .text("oil palm (million tonnes)")
         .attr("text-anchor", "start")
 
     let y = d3.scaleLinear()
