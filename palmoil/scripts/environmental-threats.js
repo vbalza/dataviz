@@ -87,8 +87,7 @@ d3.csv("data/deforestation.csv").then(function(data) {
     let area = d3.area()
         .x(function(d) { return x(d.data.year); })
         .y0(function(d) { return y(d[0]); })
-        .y1(function(d) { return y(d[1]); })
-        .curve(d3.curveMonotoneX);
+        .y1(function(d) { return y(d[1]); });
 
     areaChart
         .selectAll("mylayers")
